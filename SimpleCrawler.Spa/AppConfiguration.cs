@@ -1,4 +1,4 @@
-namespace SimpleCrawler.SinglePageApp.Infrastructure
+namespace SimpleCrawler.SinglePageApp
 {
     public class AppConfiguration
     {
@@ -6,5 +6,10 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
         public string RabbitUserName { get; set; }
         public string RabbitPassword { get; set; }
         public int RabbitPort { get; set; }
+
+        public AppConfiguration()
+        {
+            
+        }
     }
 }

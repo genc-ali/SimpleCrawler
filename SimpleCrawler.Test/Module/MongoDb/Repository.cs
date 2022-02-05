@@ -4,9 +4,15 @@ namespace SimpleCrawler.Test.Module.MongoDb
 {
     public class Repository
     {
-        [Fact]
-        public void Test1()
+        public Repository()
         {
+                
+        }
+        
+        [Fact]
+        public void ConnectionTest()
+        {
+            
         }
     }
 }

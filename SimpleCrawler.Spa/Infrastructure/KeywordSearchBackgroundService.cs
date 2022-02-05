@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
-namespace info_track.Infrastructure
+namespace SimpleCrawler.SinglePageApp.Infrastructure
 {
     public class KeywordSearchBackgroundService : RabbitListener
     {
@@ -45,13 +45,5 @@ namespace info_track.Infrastructure
             }
 
         }
-    }
-
-    public class AppConfiguration
-    {
-        public string RabbitHost { get; set; }
-        public string RabbitUserName { get; set; }
-        public string RabbitPassword { get; set; }
-        public int RabbitPort { get; set; }
     }
 }

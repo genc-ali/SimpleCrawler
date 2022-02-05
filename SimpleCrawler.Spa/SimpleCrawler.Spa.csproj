@@ -7,7 +7,9 @@
         <IsPackable>false</IsPackable>
         <SpaRoot>ClientApp\</SpaRoot>
         <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-        <RootNamespace>info_track</RootNamespace>
+        <RootNamespace>SimpleCrawler.SinglePageApp</RootNamespace>
+        <AssemblyName>SimpleCrawler.SinglePageApp</AssemblyName>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>

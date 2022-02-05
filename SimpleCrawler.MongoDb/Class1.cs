@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace InfoTrack.MongoDb
+﻿namespace SimpleCrawler.MongoDb
 {
     public class Class1
     {

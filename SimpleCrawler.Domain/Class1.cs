@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace InfoTrack.Domain
+﻿namespace SimpleCrawler.Domain
 {
     public class Class1
     {
