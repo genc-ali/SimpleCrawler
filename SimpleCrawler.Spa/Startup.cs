@@ -1,13 +1,12 @@
-using info_track.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SimpleCrawler.SinglePageApp.Infrastructure;
 
-namespace info_track
+namespace SimpleCrawler.SinglePageApp
 {
     public class Startup
     {

@@ -1,10 +1,14 @@
 using System;
+using System.Net.Http.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SimpleCrawler.Domain;
+using SimpleCrawler.Domain.QueryKeywordContext;
 
-namespace info_track.Infrastructure
+namespace SimpleCrawler.SinglePageApp.Infrastructure
 {
     public class KeywordSearchBackgroundService : RabbitListener
     {
@@ -12,7 +16,7 @@ namespace info_track.Infrastructure
 
         // Because the Process function is a delegate callback, if you inject other services directly, they are not in one scope.
         // To invoke other Service instances, you can only use IServiceProvider CreateScope to retrieve instance objects
-        private readonly IServiceProvider _services;
+        private readonly ApplicationAdapter _applicationAdapter;
 
         public KeywordSearchBackgroundService(IServiceProvider services, 
             IOptions<AppConfiguration> options,
@@ -21,18 +25,20 @@ namespace info_track.Infrastructure
             RouteKey = "done.task";
             QueueName = "lemonnovelapi.chapter";
             _logger = logger;
-            _services = services;
+
+            using var scope = services.CreateScope();
+            _applicationAdapter = scope.ServiceProvider.GetRequiredService<ApplicationAdapter>();
 
         }
 
         protected override bool Process(string message)
         {
-            var taskMessage = JToken.Parse(message);
+            var queryKeywordDto = JsonConvert.DeserializeObject<QueryKeywordDto>(message);
             
             try
             {
-                using var scope = _services.CreateScope();
-                var xxxService = scope.ServiceProvider.GetRequiredService<XXXXService>();
+                _applicationAdapter.QueryProcessStart(queryKeywordDto);
+                
                 return true;
             }
             catch (Exception ex)
@@ -45,13 +51,5 @@ namespace info_track.Infrastructure
             }
 
         }
-    }
-
-    public class AppConfiguration
-    {
-        public string RabbitHost { get; set; }
-        public string RabbitUserName { get; set; }
-        public string RabbitPassword { get; set; }
-        public int RabbitPort { get; set; }
     }
 }

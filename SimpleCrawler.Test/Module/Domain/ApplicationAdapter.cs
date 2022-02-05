@@ -2,7 +2,7 @@ using Xunit;
 
 namespace SimpleCrawler.Test.Module.Domain
 {
-    public class UnitTest1
+    public partial class ApplicationAdapter
     {
         [Fact]
         public void Test1()

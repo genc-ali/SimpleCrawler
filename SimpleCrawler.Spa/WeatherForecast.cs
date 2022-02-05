@@ -1,6 +1,6 @@
 using System;
 
-namespace info_track
+namespace SimpleCrawler.SinglePageApp
 {
     public class WeatherForecast
     {

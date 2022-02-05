@@ -20,7 +20,12 @@
       "launchBrowser": true,
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_RabbitHost": "127.0.0.1",
+        "ASPNETCORE_RabbitUserName": "guest",
+        "ASPNETCORE_RabbitPassword": "quest",
+        "ASPNETCORE_RabbitPort": "5672"
+        
       }
     }
   }

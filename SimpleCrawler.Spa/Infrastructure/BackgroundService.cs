@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace info_track.Infrastructure
+namespace SimpleCrawler.SinglePageApp.Infrastructure
 {
     public class RabbitListener : IHostedService, IDisposable
     {
