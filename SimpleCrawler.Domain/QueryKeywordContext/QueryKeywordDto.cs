@@ -1,6 +1,6 @@
 using Newtonsoft.Json.Linq;
 
-namespace SimpleCrawler.SinglePageApp.Infrastructure
+namespace SimpleCrawler.Domain.QueryKeywordContext
 {
     public class QueryKeywordDto
     {
