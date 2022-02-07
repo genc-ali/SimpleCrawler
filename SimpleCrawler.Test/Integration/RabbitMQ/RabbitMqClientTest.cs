@@ -67,7 +67,7 @@ namespace SimpleCrawler.Test.Integration.RabbitMQ
                 {
                     "NEW",
                     new QueryKeywordDto(UserId, "info-track", 
-                        typeof(GoogleCrawler), QueryPeriod.Daily)
+                        typeof(GoogleCrawler), QueryPeriod.Daily, DateTime.UtcNow.AddMinutes(5))
                 },
                 /*
                 new object[]

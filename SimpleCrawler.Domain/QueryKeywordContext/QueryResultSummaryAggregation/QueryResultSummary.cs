@@ -9,39 +9,38 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryResultSummaryAggregation
 {
     public class QueryResultSummary:EntityItem<QueryResultSummaryDto, QueryResultSummaryDbObject>
     {
-        [JsonProperty] public Guid Id { get; }
+        [JsonProperty] public string Id { get; }
         [JsonProperty] public Guid UserId { get; }
         [JsonProperty] public string Keyword { get; }
 
-        [JsonProperty]
-        public Type SearchEngine { get; }
-        
-        [JsonProperty] public QueryPeriod QueryPeriod { get; }
-        
-        [JsonProperty] public RowStatus RowStatus { get; }
+        [JsonProperty] public long TotalQuery { get; set; }
+
+        [JsonProperty] public long TotalImpact { get; set; }
+
+        [JsonProperty] public DateTime LastQueryDate { get; set; }
 
         [JsonProperty] public DateTime InsertDate { get; }
 
-        public QueryResultSummary(Guid id, Guid userId, string keyword, Type searchEngine,
-            QueryPeriod queryPeriod, RowStatus rowStatus, DateTime? insertDate)
+        public QueryResultSummary(string id, Guid userId, string keyword, long totalQuery,
+            long totalImpact, DateTime? lastQueryDate, DateTime? insertDate)
         {
             Id = id;
             UserId = userId;
             Keyword = keyword;
-            QueryPeriod = queryPeriod;
-            SearchEngine = searchEngine;
-            RowStatus = rowStatus;
+            TotalQuery = totalQuery;
+            TotalImpact = totalImpact;
+            LastQueryDate = lastQueryDate ?? DateTime.UtcNow;
             InsertDate = insertDate ?? DateTime.UtcNow;
         }
         
         public override QueryResultSummaryDbObject GetDbObject()
         {
-            return new QueryResultSummaryDbObject(Id, UserId, Keyword, SearchEngine, QueryPeriod,  RowStatus, InsertDate);
+            return new QueryResultSummaryDbObject(Id, UserId, Keyword, TotalQuery, TotalImpact, LastQueryDate, InsertDate);
         }
 
         public override QueryResultSummaryDto GetDtoObject()
         {
-            return new QueryResultSummaryDto(Id, UserId, Keyword, SearchEngine, QueryPeriod,  RowStatus, InsertDate);
+            return new QueryResultSummaryDto(Id, UserId, Keyword, TotalQuery, TotalImpact, LastQueryDate, InsertDate);
         }
     }
 }

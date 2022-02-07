@@ -9,13 +9,13 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryResultDetailAggregation
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public string Keyword{ get; set; }
-        public Type SearchEngine { get; set; }
+        public string SearchEngine { get; set; }
         public QueryPeriod QueryPeriod { get; set; }
         public List<Uri> Urls{ get; set; }
         public RowStatus RowStatus{ get; set; }
         public DateTime InsertDate { get; set; }
         
-        public QueryResultDetailDbObject(Guid id, Guid userId, string keyword, Type searchEngine,
+        public QueryResultDetailDbObject(Guid id, Guid userId, string keyword, string searchEngine,
             QueryPeriod queryPeriod, List<Uri> urls, RowStatus rowStatus, DateTime? insertDate)
         {
             Id = id;

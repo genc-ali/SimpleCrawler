@@ -55,7 +55,7 @@ namespace SimpleCrawler.Test.Module.Domain
         [Fact]
         public async Task GetKeywordByUser()
         {
-            QueryKeywordDto queryKeyword = new QueryKeywordDto(UserId, "ABD", typeof(GoogleCrawler), QueryPeriod.Daily);
+            QueryKeywordDto queryKeyword = new QueryKeywordDto(UserId, "ABD", typeof(GoogleCrawler), QueryPeriod.Daily, DateTime.UtcNow);
             QueryKeywordDto queryKeywordResponse = await _applicationAdapter.GetKeywordByUser(UserId, queryKeyword.Keyword);
             Assert.True(queryKeywordResponse!=null);
         }
@@ -63,7 +63,7 @@ namespace SimpleCrawler.Test.Module.Domain
         [Fact]
         public async Task InsertNewQueryKeyword()
         {
-            QueryKeywordDto queryKeyword = new QueryKeywordDto(UserId, "ABD-2", typeof(GoogleCrawler), QueryPeriod.Daily);
+            QueryKeywordDto queryKeyword = new QueryKeywordDto(UserId, "ABD-2", typeof(GoogleCrawler), QueryPeriod.Daily,  DateTime.UtcNow);
             QueryKeywordDto queryKeywordResponse = await _applicationAdapter.InsertNewQueryKeyword(queryKeyword);
             Assert.True(queryKeywordResponse!=null);
         }
@@ -73,7 +73,7 @@ namespace SimpleCrawler.Test.Module.Domain
         {
             string keyWord = "ABD" + new string('a', 5000);
             
-            QueryKeywordDto queryKeyword = new QueryKeywordDto(UserId, keyWord, typeof(GoogleCrawler), QueryPeriod.Daily);
+            QueryKeywordDto queryKeyword = new QueryKeywordDto(UserId, keyWord, typeof(GoogleCrawler), QueryPeriod.Daily,  DateTime.UtcNow);
             QueryKeywordDto queryKeywordResponse1 = await _applicationAdapter.InsertNewQueryKeyword(queryKeyword);
             Assert.True(queryKeywordResponse1!=null);
             

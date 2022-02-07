@@ -19,18 +19,22 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation
         
         [JsonProperty] public QueryPeriod QueryPeriod { get; }
 
-        [JsonProperty] public RowStatus RowStatus { get; }
+        [JsonProperty] public RowStatus RowStatus { get; internal set; }
+
+        [JsonProperty]
+        public QueryResultSummary QueryResultSummary { get; internal set; }
+        
+        [JsonProperty]
+        public List<QueryResultDetail> QueryResultDetail { get; internal set; }
+
+        [JsonProperty] public DateTime FirstQueryDate { get; }
+        
+        [JsonProperty] public DateTime NextQueryDate { get; internal set; }
 
         [JsonProperty] public DateTime InsertDate { get; }
         
-        [JsonProperty]
-        public QueryResultSummary QueryResultSummary { get; set; }
-        
-        [JsonProperty]
-        public List<QueryResultDetail> QueryResultDetail { get; set; }
-
         public QueryKeyword(string id, Guid userId, string keyword, string searchEngine,
-            QueryPeriod queryPeriod, RowStatus rowStatus, DateTime? insertDate)
+            QueryPeriod queryPeriod, RowStatus rowStatus, DateTime? firstQueryDate, DateTime nextQueryDate, DateTime? insertDate)
         {
             Id = id;
             UserId = userId;
@@ -38,6 +42,8 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation
             QueryPeriod = queryPeriod;
             TypeOfSearchEngine = searchEngine;
             RowStatus = rowStatus;
+            FirstQueryDate = firstQueryDate ?? DateTime.UtcNow;
+            NextQueryDate = nextQueryDate;
             InsertDate = insertDate ?? DateTime.UtcNow;
         }
 
@@ -45,19 +51,42 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation
         {
             return new QueryKeywordDbObject(Id, UserId, Keyword, TypeOfSearchEngine, QueryPeriod, 
                 QueryResultSummary?.GetDbObject(), QueryResultDetail?.Select(x=> x.GetDbObject()).ToList(),
-                RowStatus, InsertDate);
+                RowStatus, FirstQueryDate, NextQueryDate, InsertDate);
         }
 
         public override QueryKeywordDto GetDtoObject()
         {
             return new QueryKeywordDto(Id, UserId, Keyword, TypeOfSearchEngine, QueryPeriod,   
                 QueryResultSummary?.GetDtoObject(), QueryResultDetail?.Select(x=> x.GetDtoObject()).ToList(),
-                RowStatus, InsertDate);
+                RowStatus, FirstQueryDate,  NextQueryDate, InsertDate);
         }
 
-        public void UpdateSearchSummary(List<Uri> mentionUrls)
+        public void UpdateSearchSummary(QueryResultDetail queryResultDetail)
         {
-            // QueryResultDto = mentionUrls;
+            QueryResultSummary ??= new QueryResultSummary(Id, UserId, Keyword, 0, 0, null, InsertDate);
+            QueryResultDetail ??= new List<QueryResultDetail>();
+            
+            QueryResultDetail.Add(queryResultDetail);
+            RowStatus = RowStatus.Completed;
+
+            switch (QueryPeriod)
+            {
+                case QueryPeriod.Daily:
+                case QueryPeriod.Weekly:
+                    NextQueryDate = NextQueryDate.AddHours((int) QueryPeriod);
+                    break;
+                case QueryPeriod.Monthly:
+                    NextQueryDate = NextQueryDate.AddMonths(1);
+                    break;
+                default:
+                    NextQueryDate = NextQueryDate.AddHours(1);
+                    break;
+            }
+
+            QueryResultSummary.TotalImpact += queryResultDetail.Urls.Count;
+            QueryResultSummary.TotalQuery++;
+            QueryResultSummary.LastQueryDate = DateTime.UtcNow;
+
         }
     }
 }

@@ -60,8 +60,8 @@ namespace SimpleCrawler.MongoDb
         public IMongoCollection<QueryResultSummaryDbObject> QueryResultSummary =>
             Database.GetCollection<QueryResultSummaryDbObject>("QueryResultSummary");
 
-        public IMongoCollection<QueryResultDetail> QueryResultDetail =>
-            Database.GetCollection<QueryResultDetail>("QueryResultDetail");
+        public IMongoCollection<QueryResultDetailDbObject> QueryResultDetail =>
+            Database.GetCollection<QueryResultDetailDbObject>("QueryResultDetail");
 
 
         public async Task<bool> CanConnectAsync()

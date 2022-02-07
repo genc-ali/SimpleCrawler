@@ -12,6 +12,7 @@ using SimpleCrawler.Core.Crawler;
 using SimpleCrawler.Domain;
 using SimpleCrawler.Domain.QueryKeywordContext;
 using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
+using SimpleCrawler.Domain.QueryKeywordContext.QueryResultDetailAggregation;
 
 namespace SimpleCrawler.SinglePageApp.Infrastructure
 {
@@ -34,7 +35,7 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
 
         }
 
-        protected override async Task<QueryPeriod> Process(string message)
+        protected override async Task<QueryKeywordDto> Process(string message)
         {
             var queryKeywordDto = JsonConvert.DeserializeObject<QueryKeywordDto>(message);
             
@@ -45,9 +46,14 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
                 
                 var webCrawler = (WebCrawler) _scope.ServiceProvider.GetRequiredService(searchEngineType ?? throw new InvalidOperationException());
                 var urlList = await _applicationAdapter.QueryProcessStart(webCrawler, queryKeywordDto);
-                var saveResult = await _applicationAdapter.SaveSearchSummary(queryKeywordDto, urlList);
+
+                QueryResultDetail queryResultDetail = new QueryResultDetail(null, queryKeywordDto.UserId,
+                    queryKeywordDto.Keyword, queryKeywordDto.TypeOfSearchEngine, queryKeywordDto.QueryPeriod, urlList,
+                    RowStatus.Completed, null);
                 
-                return saveResult.QueryPeriod;
+                var saveResult = await _applicationAdapter.SaveSearchSummary(queryKeywordDto, queryResultDetail);
+                
+                return saveResult;
             }
             catch (Exception ex)
             {
@@ -55,7 +61,7 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
                     ex.Message, ex.StackTrace, message);
                 
                 _logger.LogError(-1, ex, "Process fail");
-                return QueryPeriod.None;
+                return null;
             }
 
         }

@@ -12,22 +12,23 @@ using SimpleCrawler.Core;
 using SimpleCrawler.Core.Crawler;
 using SimpleCrawler.Core.MessageQueue.RabbitMq;
 using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
+using SimpleCrawler.Domain.QueryKeywordContext.QueryResultDetailAggregation;
 
 namespace SimpleCrawler.Domain
 {
     // ReSharper disable once ClassNeverInstantiated.Global
     public class ApplicationAdapter:IApplicationAdapter
     {
-        //private static AsyncPolicyWrap ApplicationPolicy { get; }
+        private static AsyncPolicyWrap ApplicationPolicy { get; set; }
         private readonly ApplicationService _applicationService;
-        private IRabbitMqClient _rabbitMqClient;
+        private readonly IRabbitMqClient _rabbitMqClient;
         public ApplicationAdapter(ApplicationService applicationService, IRabbitMqClient rabbitMqClient)
         {
             _applicationService = applicationService;
             _rabbitMqClient = rabbitMqClient;
         }
 
-        /*
+        
         static ApplicationAdapter()
         {
             var waitAndRetryPolicy = Policy.Handle<Exception>(e => e is BrokenCircuitException)
@@ -43,8 +44,7 @@ namespace SimpleCrawler.Domain
 
             ApplicationPolicy = circuitBreakerPolicy.WrapAsync(waitAndRetryPolicy);
         }
-        */
-
+        
         public async Task<List<Uri>> QueryProcessStart(WebCrawler crawler, QueryKeywordDto queryKeywordDto)
         {
             try
@@ -58,14 +58,15 @@ namespace SimpleCrawler.Domain
             }
         }
         
-        public async Task<QueryKeywordDto> SaveSearchSummary(QueryKeywordDto queryKeywordDto, List<Uri> mentionUrls)
+        public async Task<QueryKeywordDto> SaveSearchSummary(QueryKeywordDto queryKeywordDto,
+            QueryResultDetail queryResultDetail)
         {
             try
             {
                 QueryKeyword queryKeyword = QueryKeywordFactory.GetQueryKeywordFromDto(queryKeywordDto);
-                queryKeyword.UpdateSearchSummary(mentionUrls);
+                queryKeyword.UpdateSearchSummary(queryResultDetail);
                 
-                //var response = await _applicationService.SaveSearchSummary(queryKeyword, mentionUrls);
+                var response = await _applicationService.SaveSearchSummary(queryKeyword, queryResultDetail);
 
                 return queryKeyword.GetDtoObject();
             }
@@ -83,7 +84,7 @@ namespace SimpleCrawler.Domain
 
             string keywordDto = JsonConvert.SerializeObject(queryKeywordDto);
             var body = Encoding.UTF8.GetBytes(keywordDto);
-            _rabbitMqClient.SendMessage(body, default, DateTime.UtcNow.AddMinutes(10));
+            _rabbitMqClient.SendMessage(body, default, queryKeywordDto.FirstQueryDate);
             
             return response?.GetDtoObject();
         }

@@ -4,24 +4,26 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryResultSummaryAggregation
 {
     public class QueryResultSummaryDbObject
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public Guid UserId { get; set; }
         public string Keyword{ get; set; }
-        public Type SearchEngine { get; set; }
-        public QueryPeriod QueryPeriod { get; set; }
-        public RowStatus RowStatus{ get; set; }
+        
+        public long TotalQuery { get; set; }
+        
+        public long TotalImpact{ get; set; }
+        
+        public DateTime LastQueryDate { get; set; }
         public DateTime InsertDate { get; set; }
         
-        public QueryResultSummaryDbObject(Guid id, Guid userId, string keyword, Type searchEngine,
-            QueryPeriod queryPeriod,  RowStatus rowStatus, DateTime? insertDate)
+        public QueryResultSummaryDbObject(string id, Guid userId, string keyword, long totalQuery, long totalImpact, DateTime? lastQueryDate ,DateTime insertDate)
         {
             Id = id;
             UserId = userId;
             Keyword = keyword;
-            QueryPeriod = queryPeriod;
-            SearchEngine = searchEngine;
-            RowStatus = rowStatus;
-            InsertDate = insertDate ?? DateTime.UtcNow;
+            TotalQuery = totalQuery;
+            TotalImpact = totalImpact;
+            LastQueryDate = lastQueryDate ?? DateTime.UtcNow;
+            InsertDate = insertDate;
         }
     }
 }
