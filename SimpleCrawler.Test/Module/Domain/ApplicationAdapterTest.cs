@@ -11,7 +11,7 @@ using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
 using SimpleCrawler.MongoDb;
 using SimpleCrawler.MongoDb.Repository;
 using SimpleCrawler.SinglePageApp.Infrastructure;
-using SimpleCrawler.SinglePageApp.Infrastructure.RabbitMq;
+using SimpleCrawler.SinglePageApp.Infrastructure.MessageQueue;
 using Xunit;
 
 namespace SimpleCrawler.Test.Module.Domain

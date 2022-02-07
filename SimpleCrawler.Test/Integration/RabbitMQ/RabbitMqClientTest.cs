@@ -14,7 +14,7 @@ using SimpleCrawler.Domain.QueryKeywordContext;
 using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
 using SimpleCrawler.SinglePageApp;
 using SimpleCrawler.SinglePageApp.Infrastructure;
-using SimpleCrawler.SinglePageApp.Infrastructure.RabbitMq;
+using SimpleCrawler.SinglePageApp.Infrastructure.MessageQueue;
 using Xunit;
 
 namespace SimpleCrawler.Test.Integration.RabbitMQ

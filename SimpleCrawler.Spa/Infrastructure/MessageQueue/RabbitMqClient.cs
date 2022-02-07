@@ -4,12 +4,12 @@ using SimpleCrawler.Core.DateTime;
 using SimpleCrawler.Core.MessageQueue.RabbitMq;
 using SimpleCrawler.Domain;
 
-namespace SimpleCrawler.SinglePageApp.Infrastructure.RabbitMq
+namespace SimpleCrawler.SinglePageApp.Infrastructure.MessageQueue
 {
     public class RabbitMqClient:IRabbitMqClient
     {
-        private IModel _channel;
-        private AppConfiguration _appConfiguration;
+        private readonly IModel _channel;
+        private readonly AppConfiguration _appConfiguration;
         
         public RabbitMqClient(AppConfiguration appConfiguration)
         {

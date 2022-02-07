@@ -11,7 +11,7 @@ using SimpleCrawler.Domain;
 using SimpleCrawler.MongoDb;
 using SimpleCrawler.MongoDb.Repository;
 using SimpleCrawler.SinglePageApp.Infrastructure;
-using SimpleCrawler.SinglePageApp.Infrastructure.RabbitMq;
+using SimpleCrawler.SinglePageApp.Infrastructure.MessageQueue;
 
 namespace SimpleCrawler.SinglePageApp
 {
