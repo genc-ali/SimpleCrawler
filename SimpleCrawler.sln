@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCrawler.Test", "Simpl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCrawler.DockerCompose", "SimpleCrawler.DockerCompose\SimpleCrawler.DockerCompose.csproj", "{998BEC24-83C4-45E4-B877-BC88367C6B17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCrawler.Core", "SimpleCrawler.Core\SimpleCrawler.Core.csproj", "{D9679A79-DEB7-4682-92AF-B0D0132E961D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{998BEC24-83C4-45E4-B877-BC88367C6B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{998BEC24-83C4-45E4-B877-BC88367C6B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{998BEC24-83C4-45E4-B877-BC88367C6B17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9679A79-DEB7-4682-92AF-B0D0132E961D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9679A79-DEB7-4682-92AF-B0D0132E961D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9679A79-DEB7-4682-92AF-B0D0132E961D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9679A79-DEB7-4682-92AF-B0D0132E961D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
