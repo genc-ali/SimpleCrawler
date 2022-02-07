@@ -5,11 +5,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\SimpleCrawler.Domain\SimpleCrawler.Domain.csproj" />
+      <PackageReference Include="RabbitMQ.Client" Version="6.2.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MongoDB.Driver" Version="2.14.1" />
+      <Folder Include="MessageQueue" />
     </ItemGroup>
 
 </Project>

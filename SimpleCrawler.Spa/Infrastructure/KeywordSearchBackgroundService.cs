@@ -1,12 +1,17 @@
 using System;
 using System.Net.Http.Json;
+using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SimpleCrawler.Core;
+using SimpleCrawler.Core.Crawler;
 using SimpleCrawler.Domain;
 using SimpleCrawler.Domain.QueryKeywordContext;
+using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
 
 namespace SimpleCrawler.SinglePageApp.Infrastructure
 {
@@ -16,30 +21,33 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
 
         // Because the Process function is a delegate callback, if you inject other services directly, they are not in one scope.
         // To invoke other Service instances, you can only use IServiceProvider CreateScope to retrieve instance objects
-        private readonly ApplicationAdapter _applicationAdapter;
+        private readonly IApplicationAdapter _applicationAdapter;
+        private readonly IServiceScope _scope;
 
         public KeywordSearchBackgroundService(IServiceProvider services, 
-            IOptions<AppConfiguration> options,
-            ILogger<KeywordSearchBackgroundService> logger) : base(options)
+            AppConfiguration appConfiguration,
+            ILogger<KeywordSearchBackgroundService> logger) : base(appConfiguration)
         {
-            RouteKey = "done.task";
-            QueueName = "lemonnovelapi.chapter";
             _logger = logger;
-
-            using var scope = services.CreateScope();
-            _applicationAdapter = scope.ServiceProvider.GetRequiredService<ApplicationAdapter>();
+            _scope = services.CreateScope();
+            _applicationAdapter = _scope.ServiceProvider.GetRequiredService<IApplicationAdapter>();
 
         }
 
-        protected override bool Process(string message)
+        protected override async Task<QueryPeriod> Process(string message)
         {
             var queryKeywordDto = JsonConvert.DeserializeObject<QueryKeywordDto>(message);
             
             try
             {
-                _applicationAdapter.QueryProcessStart(queryKeywordDto);
+                Assembly entryAssembly = Assembly.GetEntryAssembly();
+                Type searchEngineType = entryAssembly?.GetType(queryKeywordDto?.TypeOfSearchEngine ?? throw new InvalidOperationException());
                 
-                return true;
+                var webCrawler = (WebCrawler) _scope.ServiceProvider.GetRequiredService(searchEngineType ?? throw new InvalidOperationException());
+                var urlList = await _applicationAdapter.QueryProcessStart(webCrawler, queryKeywordDto);
+                var saveResult = await _applicationAdapter.SaveSearchSummary(queryKeywordDto, urlList);
+                
+                return saveResult.QueryPeriod;
             }
             catch (Exception ex)
             {
@@ -47,7 +55,7 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
                     ex.Message, ex.StackTrace, message);
                 
                 _logger.LogError(-1, ex, "Process fail");
-                return false;
+                return QueryPeriod.None;
             }
 
         }

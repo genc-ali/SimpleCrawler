@@ -1,10 +1,17 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SimpleCrawler.Core.Database;
+using SimpleCrawler.Core.MessageQueue.RabbitMq;
+using SimpleCrawler.Domain;
+using SimpleCrawler.MongoDb;
+using SimpleCrawler.MongoDb.Repository;
 using SimpleCrawler.SinglePageApp.Infrastructure;
+using SimpleCrawler.SinglePageApp.Infrastructure.MessageQueue;
 
 namespace SimpleCrawler.SinglePageApp
 {
@@ -20,7 +27,18 @@ namespace SimpleCrawler.SinglePageApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton(_ => (IConfigurationRoot) Configuration);
+            services.AddSingleton<AppConfiguration>();
+            services.AddScoped<IDbContext, SimpleCrawlerDbContext>();
+            
+            services.AddScoped<IQueryKeywordRepository, QueryKeywordRepository>();
+            services.AddScoped<ApplicationService>();
+            services.AddScoped<IApplicationAdapter, ApplicationAdapter>();
+            
             services.AddHostedService<KeywordSearchBackgroundService>();
+            services.AddSingleton<IRabbitMqClient, RabbitMqClient>();
+            services.AddSingleton<GoogleCrawler>();
+            
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
