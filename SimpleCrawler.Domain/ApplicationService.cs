@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SimpleCrawler.Core.Crawler;
 using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
+using SimpleCrawler.Domain.QueryKeywordContext.QueryResultDetailAggregation;
 
 namespace SimpleCrawler.Domain
 {
@@ -29,11 +30,12 @@ namespace SimpleCrawler.Domain
             }
         }
 
-        public async Task<QueryKeyword> SaveSearchSummary(QueryKeyword queryKeywordDto)
+        public async Task<QueryKeyword> SaveSearchSummary(QueryKeyword queryKeywordDto,
+            QueryResultDetail queryResultDetail)
         {
             try
             {
-                var response =  await _queryKeywordRepository.SaveSearchSummaryAsync(queryKeywordDto.GetDbObject());
+                var response =  await _queryKeywordRepository.SaveSearchSummaryAsync(queryKeywordDto.GetDbObject(), queryResultDetail.GetDbObject());
                 var  queryKeyword = QueryKeywordFactory.GetQueryKeywordFromDbObject(response);
                 return queryKeyword;
 

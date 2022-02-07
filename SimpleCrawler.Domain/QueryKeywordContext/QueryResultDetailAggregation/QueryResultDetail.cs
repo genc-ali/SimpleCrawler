@@ -13,7 +13,7 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryResultDetailAggregation
         [JsonProperty] public string Keyword { get; }
 
         [JsonProperty]
-        public Type SearchEngine { get; }
+        public string SearchEngine { get; }
         
         [JsonProperty] public QueryPeriod QueryPeriod { get; }
         
@@ -23,10 +23,10 @@ namespace SimpleCrawler.Domain.QueryKeywordContext.QueryResultDetailAggregation
 
         [JsonProperty] public DateTime InsertDate { get; }
 
-        public QueryResultDetail(Guid id, Guid userId, string keyword, Type searchEngine,
+        public QueryResultDetail(Guid? id, Guid userId, string keyword, string searchEngine,
             QueryPeriod queryPeriod, List<Uri> urls, RowStatus rowStatus, DateTime? insertDate)
         {
-            Id = id;
+            Id = id ?? Guid.NewGuid();
             UserId = userId;
             Keyword = keyword;
             QueryPeriod = queryPeriod;

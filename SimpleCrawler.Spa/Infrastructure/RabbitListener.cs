@@ -3,13 +3,13 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using SimpleCrawler.Core.DateTime;
-using SimpleCrawler.Core.MessageQueue.RabbitMq;
 using SimpleCrawler.Domain;
 using SimpleCrawler.Domain.QueryKeywordContext;
+using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
 
 namespace SimpleCrawler.SinglePageApp.Infrastructure
 {
@@ -46,7 +46,7 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
         }
 
         // Method of handling messages
-        protected virtual Task<QueryPeriod> Process(string message)
+        protected virtual Task<QueryKeywordDto> Process(string message)
         {
             throw new NotImplementedException();
         }
@@ -81,13 +81,25 @@ namespace SimpleCrawler.SinglePageApp.Infrastructure
                 var body = ea.Body.Span;
                 var message = Encoding.UTF8.GetString(body);
                 var result = Process(message).Result;
-                if (result != QueryPeriod.None)
+                if (result != null)
                 {
                     _channel.BasicAck(ea.DeliveryTag, false);
+                 
+                    
+                    // requeue for next process. update message timestamp and send to queue
+                    if (result.QueryPeriod != QueryPeriod.None)
+                    {
+                        IBasicProperties properties = _channel.CreateBasicProperties();
+                        properties.Timestamp = result.NextQueryDate.ToAmqpTimestamp();
+                        PublicationAddress address = new PublicationAddress(ExchangeType.Direct,
+                            _appConfiguration.MessageExchange, ea.RoutingKey);
+                        
+                        string keywordDto = JsonConvert.SerializeObject(result);
+                        var newMessage = Encoding.UTF8.GetBytes(keywordDto);
+                        _channel.BasicPublish(address, properties, newMessage);
+                    }
                 }
-                
-                // TODO:requeue for next process. update message timestamp and send to queue
-                
+
             };
             
             _channel.BasicConsume(queue: _appConfiguration.MessageQueue, consumer: consumer);

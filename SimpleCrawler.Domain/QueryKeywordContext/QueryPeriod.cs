@@ -3,9 +3,8 @@ namespace SimpleCrawler.Domain.QueryKeywordContext
     public enum QueryPeriod
     {
         None = 0,
-        Hourly = 1,
-        Daily = 2,
-        Weekly = 3,
-        Monthly = 4
+        Daily = 24,
+        Weekly = 168, // 7*24,
+        Monthly = 720 //30*24
     }
 }

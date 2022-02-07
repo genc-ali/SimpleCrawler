@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using SimpleCrawler.Core.Database;
 using SimpleCrawler.Core.Security;
 using SimpleCrawler.Domain;
+using SimpleCrawler.Domain.QueryKeywordContext;
 using SimpleCrawler.Domain.QueryKeywordContext.QueryKeywordAggregation;
 using SimpleCrawler.Domain.QueryKeywordContext.QueryResultDetailAggregation;
 
@@ -19,20 +21,20 @@ namespace SimpleCrawler.MongoDb.Repository
             _simpleCrawlerDbContext = (SimpleCrawlerDbContext) simpleCrawlerDbContext;
         }
 
-        public async Task<QueryKeywordDbObject> SaveSearchSummaryAsync(QueryKeywordDbObject queryKeyword)
+        public async Task<QueryKeywordDbObject> SaveSearchSummaryAsync(QueryKeywordDbObject queryKeyword,
+            QueryResultDetailDbObject queryResultDetail)
         {
+            await _simpleCrawlerDbContext.QueryResultDetail.InsertOneAsync(queryResultDetail);
+
             await _simpleCrawlerDbContext.QueryKeywords.ReplaceOneAsync(
                 doc=> doc.Id == queryKeyword.Id,
                 options: new ReplaceOptions { IsUpsert = true },
                 replacement: queryKeyword);
 
-            /*
-            foreach (var resultDetail in queryKeyword.QueryResultDetails)
-            {
-                QueryResultDetail resultDetail = new QueryResultDetail()
-                await _simpleCrawlerDbContext.QueryResultDetail.""
-            }
-            */
+            await _simpleCrawlerDbContext.QueryResultSummary.ReplaceOneAsync(
+                doc => doc.Id == queryKeyword.Id,
+                options: new ReplaceOptions {IsUpsert = true},
+                replacement: queryKeyword.QueryResultSummary);
             
             return queryKeyword;
         }
