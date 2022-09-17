@@ -1,1 +1,0 @@
-# SimpleCrawler.Core
