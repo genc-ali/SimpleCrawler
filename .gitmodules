@@ -4,3 +4,6 @@
 [submodule "SimpleCrawler.Engine"]
 	path = SimpleCrawler.Engine
 	url = git@github.com:recep-genc/SimpleCrawler.Engine.git
+[submodule "SimpleCrawler.APIGateway"]
+	path = SimpleCrawler.APIGateway
+	url = git@github.com:recep-genc/SimpleCrawler.APIGateway.git
