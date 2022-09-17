@@ -7,3 +7,6 @@
 [submodule "SimpleCrawler.APIGateway"]
 	path = SimpleCrawler.APIGateway
 	url = git@github.com:recep-genc/SimpleCrawler.APIGateway.git
+[submodule "AppLibraries/SimpleCrawler.NetCore"]
+	path = AppLibraries/SimpleCrawler.NetCore
+	url = git@github.com:recep-genc/SimpleCrawler.NetCore.git
