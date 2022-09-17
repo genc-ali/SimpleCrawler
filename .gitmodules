@@ -1,3 +1,6 @@
 [submodule "AppLibraries/SimpleCrawler.Core"]
 	path = AppLibraries/SimpleCrawler.Core
 	url = git@github.com:recep-genc/SimpleCrawler.Core.git
+[submodule "SimpleCrawler.Engine"]
+	path = SimpleCrawler.Engine
+	url = git@github.com:recep-genc/SimpleCrawler.Engine.git
