@@ -6,6 +6,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CrawlerEngine", "CrawlerEng
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppLibraries", "AppLibraries", "{8A6AF80E-757D-426A-B824-BD41B5AB3292}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleCrawler.Core", "AppLibraries\SimpleCrawler.Core\src\SimpleCrawler.Core\SimpleCrawler.Core.csproj", "{280E6645-BA07-4BC1-BEFA-1DFA09B99421}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,8 +18,13 @@ Global
 		{D9679A79-DEB7-4682-92AF-B0D0132E961D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9679A79-DEB7-4682-92AF-B0D0132E961D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9679A79-DEB7-4682-92AF-B0D0132E961D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{280E6645-BA07-4BC1-BEFA-1DFA09B99421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{280E6645-BA07-4BC1-BEFA-1DFA09B99421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{280E6645-BA07-4BC1-BEFA-1DFA09B99421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{280E6645-BA07-4BC1-BEFA-1DFA09B99421}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D9679A79-DEB7-4682-92AF-B0D0132E961D} = {8A6AF80E-757D-426A-B824-BD41B5AB3292}
+		{280E6645-BA07-4BC1-BEFA-1DFA09B99421} = {8A6AF80E-757D-426A-B824-BD41B5AB3292}
 	EndGlobalSection
 EndGlobal
