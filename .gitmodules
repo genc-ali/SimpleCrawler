@@ -1,12 +1,12 @@
-[submodule "AppLibraries/SimpleCrawler.Core"]
-	path = AppLibraries/SimpleCrawler.Core
+[submodule "CSharp/AppLibraries/SimpleCrawler.Core"]
+	path = CSharp/AppLibraries/SimpleCrawler.Core
 	url = git@github.com:recep-genc/SimpleCrawler.Core.git
-[submodule "SimpleCrawler.Engine"]
-	path = SimpleCrawler.Engine
+[submodule "CSharp/SimpleCrawler.Engine"]
+	path = CSharp/SimpleCrawler.Engine
 	url = git@github.com:recep-genc/SimpleCrawler.Engine.git
-[submodule "SimpleCrawler.APIGateway"]
-	path = SimpleCrawler.APIGateway
+[submodule "CSharp/SimpleCrawler.APIGateway"]
+	path = CSharp/SimpleCrawler.APIGateway
 	url = git@github.com:recep-genc/SimpleCrawler.APIGateway.git
-[submodule "AppLibraries/SimpleCrawler.NetCore"]
-	path = AppLibraries/SimpleCrawler.NetCore
+[submodule "CSharp/AppLibraries/SimpleCrawler.NetCore"]
+	path = CSharp/AppLibraries/SimpleCrawler.NetCore
 	url = git@github.com:recep-genc/SimpleCrawler.NetCore.git
