@@ -10,3 +10,6 @@
 [submodule "CSharp/AppLibraries/SimpleCrawler.NetCore"]
 	path = CSharp/AppLibraries/SimpleCrawler.NetCore
 	url = git@github.com:recep-genc/SimpleCrawler.NetCore.git
+[submodule "React/simple-crawler.react.web"]
+	path = React/simple-crawler.react.web
+	url = git@github.com:recep-genc/simple-crawler.react.web.git
